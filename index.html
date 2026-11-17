@@ -9,18 +9,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@300;400;600;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --graphite: #222222;
-  --card: #2a2a2a;
-  --ice: #FAFAFA;
-  --green: #6EE870;
-  --red: #EB542F;
-  --purple: #6638E5;
-  --ink-2: rgba(250,250,250,0.72);
-  --muted: rgba(250,250,250,0.48);
-  --grid: rgba(250,250,250,0.08);
-  --axis: rgba(250,250,250,0.22);
-  --line: rgba(250,250,250,0.12);
-  --area: rgba(110,232,112,0.12);
+  --graphite: #222222; --card: #2a2a2a; --ice: #FAFAFA; --green: #6EE870; --red: #EB542F;
+  --ink-2: rgba(250,250,250,0.72); --muted: rgba(250,250,250,0.48);
+  --grid: rgba(250,250,250,0.08); --axis: rgba(250,250,250,0.22); --line: rgba(250,250,250,0.14);
   --f-base: 'Helvena', 'Inter Tight', system-ui, sans-serif;
   --f-punch: 'Monigue', 'Anton', 'Impact', sans-serif;
   --f-mono: 'PP Fraktion Mono', 'IBM Plex Mono', ui-monospace, monospace;
@@ -29,120 +20,67 @@
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--graphite); color: var(--ice); font-family: var(--f-base); line-height: 1.25; }
 main { max-width: 1120px; margin: 0 auto; padding: 24px 16px 40px; }
-
-.topbar { display: flex; justify-content: space-between; font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-2); }
-.hero { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin: 48px 0 28px; }
-h1 { font-size: clamp(40px, 7vw, 76px); line-height: 0.85; letter-spacing: -0.045em; margin: 0; font-weight: 800; }
+.topbar, .foot { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+.hero { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin: 40px 0 24px; }
+h1 { font-size: clamp(40px, 7vw, 72px); line-height: 0.85; letter-spacing: -0.045em; margin: 0; font-weight: 800; }
 h1 span { display: block; font-weight: 300; }
 .meta { font-family: var(--f-mono); font-size: 12px; text-transform: uppercase; color: var(--ink-2); line-height: 1.6; text-align: right; }
-.bar { height: 10px; background: var(--green); margin: 0 0 28px; }
+.bar { height: 10px; background: var(--green); margin-bottom: 20px; }
 
-.label { font-family: var(--f-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
-h2 { font-size: 28px; letter-spacing: -0.04em; line-height: 0.9; font-weight: 800; margin: 6px 0 20px; }
-h2 span { font-weight: 300; }
+.controls { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+.hint { font-family: var(--f-mono); font-size: 11px; text-transform: uppercase; color: var(--muted); }
+.seg { display: flex; gap: 6px; }
+.seg button { font: 600 13px var(--f-base); letter-spacing: -0.02em; cursor: pointer; padding: 7px 14px; border-radius: 999px; background: transparent; color: var(--ice); border: 2px solid var(--line); }
+.seg button:hover { border-color: var(--green); }
+.seg button[aria-pressed="true"] { background: var(--green); color: var(--graphite); border-color: var(--green); }
 
-.pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
-.pills button {
-  font: 600 14px var(--f-base); letter-spacing: -0.02em; cursor: pointer;
-  padding: 8px 16px; border-radius: 999px;
-  background: transparent; color: var(--ice); border: 2px solid var(--line);
-}
-.pills button:hover { border-color: var(--green); }
-.pills button[aria-pressed="true"] { background: var(--green); color: var(--graphite); border-color: var(--green); }
-
-.main-card { background: var(--card); padding: 24px; position: relative; }
-.big-row { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
-.big { font-family: var(--f-punch); font-size: clamp(44px, 8vw, 72px); line-height: 0.9; letter-spacing: 0.005em; }
-.big-note { font-family: var(--f-mono); font-size: 12px; text-transform: uppercase; color: var(--ink-2); }
-#main-chart { width: 100%; height: 300px; margin-top: 16px; }
-svg { display: block; overflow: visible; }
-
-.tip {
-  position: absolute; pointer-events: none; opacity: 0; transition: opacity .1s;
-  background: var(--ice); color: var(--graphite); padding: 8px 12px;
-  font-size: 13px; white-space: nowrap; line-height: 1.4;
-}
-.tip b { font-weight: 800; letter-spacing: -0.02em; }
-.tip .mono { font-family: var(--f-mono); font-size: 11px; text-transform: uppercase; color: #555; }
-
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
-.mini {
-  background: var(--card); padding: 16px 18px 10px; cursor: pointer; text-align: left;
-  border: 2px solid transparent; color: inherit; font: inherit; min-width: 0;
-}
-.mini:hover { border-color: var(--line); }
-.mini.active { border-color: var(--green); }
-.mini-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-.mini-name { font-weight: 600; font-size: 15px; letter-spacing: -0.02em; }
-.mini-day { font-family: var(--f-mono); font-size: 11px; text-transform: uppercase; color: var(--muted); }
-.mini-val { font-family: var(--f-punch); font-size: 34px; line-height: 1; margin-top: 6px; }
-.mini-sub { font-family: var(--f-mono); font-size: 11px; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
-.mini-chart { width: 100%; height: 110px; margin-top: 8px; }
-
-.chips { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin-bottom: 4px; }
-.chip {
-  text-align: left; cursor: pointer; font: inherit; color: var(--ice);
-  background: var(--card); border: 0; border-top: 4px solid var(--c); padding: 12px 14px;
-}
-.chip[aria-pressed="false"] { border-top-color: var(--line); opacity: 0.5; }
+.chips { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+.chip { text-align: left; cursor: pointer; font: inherit; color: var(--ice); background: var(--card); border: 0; border-top: 4px solid var(--c); padding: 12px 14px; user-select: none; }
+.chip[aria-pressed="false"] { border-top-color: var(--line); opacity: 0.45; }
 .chip-name { display: flex; align-items: center; gap: 6px; font-weight: 600; font-size: 13px; letter-spacing: -0.02em; }
-.chip-name i { width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
+.chip-name i { width: 10px; height: 10px; border-radius: 50%; background: var(--c); flex: none; }
 .chip[aria-pressed="false"] .chip-name i { background: transparent; border: 2px solid var(--muted); }
 .chip-val { font-family: var(--f-punch); font-size: 26px; line-height: 1; margin-top: 6px; }
-.ov-card { background: var(--card); padding: 20px 24px 16px; position: relative; margin-top: 8px; }
-#ov-chart { width: 100%; height: 320px; }
-.ov-note { font-family: var(--f-mono); font-size: 11px; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
-.tip .row { display: flex; align-items: center; gap: 8px; justify-content: space-between; }
-.tip .row span:first-child { display: flex; align-items: center; gap: 6px; }
-.tip .row i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; box-shadow: 0 0 0 1px rgba(34,34,34,0.35); }
+.chip-sub { font-family: var(--f-mono); font-size: 10px; text-transform: uppercase; color: var(--muted); margin-top: 3px; }
 
-.foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 40px; font-family: var(--f-mono); font-size: 11px; text-transform: uppercase; color: var(--muted); }
+.card { background: var(--card); padding: 16px 20px 12px; margin-top: 8px; position: relative; }
+#chart { width: 100%; height: 360px; }
+svg { display: block; overflow: visible; }
+.tip { position: absolute; pointer-events: none; opacity: 0; background: var(--ice); color: var(--graphite); padding: 8px 12px; font-size: 13px; white-space: nowrap; line-height: 1.45; }
+.tip b { font-weight: 800; }
+.tip .mono { font-family: var(--f-mono); font-size: 11px; text-transform: uppercase; color: #555; }
+.tip .row { display: flex; justify-content: space-between; gap: 14px; }
+.tip .row span { display: flex; align-items: center; gap: 6px; }
+.tip .row i { width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 0 1px rgba(34,34,34,0.35); }
+.foot { margin-top: 28px; }
 .foot b { color: var(--ice); font-weight: 500; }
-
-@media (max-width: 600px) {
-  .meta { text-align: left; }
-  .main-card { padding: 16px; }
-  #main-chart { height: 240px; }
-}
+@media (max-width: 600px) { .meta { text-align: left; } #chart { height: 280px; } .card { padding: 12px; } }
 </style>
 </head>
 <body>
 <main>
   <div class="topbar"><span>Relatório de campanha</span><span>Spun</span><span>2026</span></div>
-
   <div class="hero">
     <h1>Demand Gen<span>JN US CC R01</span></h1>
     <div class="meta">12/11 → 16/11/2026<br>6 campanhas · total por dia<br>sem veiculação em 10/11 e 11/11</div>
   </div>
   <div class="bar"></div>
 
-  <div class="label">01 · visão geral</div>
-  <h2>Todas as métricas <span>juntas</span></h2>
-  <div class="chips" id="chips" role="group" aria-label="Linhas do gráfico"></div>
-  <div class="ov-card" id="ov-card">
-    <div id="ov-chart"></div>
-    <div class="ov-note">Cada linha usa a própria escala · passe o mouse para ver os valores · clique nas métricas acima para ligar ou desligar</div>
-    <div class="tip" id="ov-tip"></div>
+  <div class="controls">
+    <span class="hint">Clique para ligar/desligar · duplo clique para ver só uma</span>
+    <div class="seg" role="group" aria-label="Formato">
+      <button id="b-linha" aria-pressed="true">Linhas</button>
+      <button id="b-barra" aria-pressed="false">Barras</button>
+      <button id="b-todas">Mostrar todas</button>
+    </div>
   </div>
-
-  <div class="bar" style="margin-top:40px"></div>
-
-  <div class="label">02 · uma métrica por vez</div>
-  <h2>Evolução <span>diária</span></h2>
-  <div class="pills" id="pills" role="group" aria-label="Métrica"></div>
-  <div class="main-card" id="main-card">
-    <div class="big-row"><div class="big" id="big"></div><div class="big-note" id="big-note"></div></div>
-    <div id="main-chart"></div>
+  <div class="chips" id="chips" role="group" aria-label="Métricas"></div>
+  <div class="card" id="card">
+    <div id="chart"></div>
     <div class="tip" id="tip"></div>
   </div>
 
-  <div class="bar" style="margin-top:40px"></div>
-
-  <div class="label">03 · métrica a métrica</div>
-  <h2>Cada métrica <span>separada</span></h2>
-  <div class="grid" id="grid"></div>
-
-  <div class="foot"><span><b>Precisão, Performance, Parceria.</b></span><span>Fonte: Relatório de campanha.xlsx · Google Ads</span></div>
+  <div class="foot"><span><b>Precisão, Performance, Parceria.</b></span><span>Com várias métricas, cada linha usa a própria escala · com uma só, o eixo mostra os valores reais</span></div>
 </main>
 
 <script>
@@ -154,238 +92,151 @@ const DADOS = [
   ['14/11', 368.57, 76, 150, 83, 3],
   ['15/11', 203.58, 22, 105, 32, 3],
   ['16/11', 635.32, 93, 306, 119, 6]
-].map(([d, custo, conv, impr, cliq, ativas]) => ({
-  d, custo, conv, impr, cliq, ativas,
-  cpa: custo / conv, ctr: cliq / impr, cpc: custo / cliq, tx: conv / cliq
-}));
+].map(([d, custo, conv, impr, cliq, ativas]) => ({ d, custo, conv, impr, cliq, ativas,
+  cpa: custo / conv, ctr: cliq / impr, cpc: custo / cliq, tx: conv / cliq }));
 const T = DADOS.reduce((a, s) => ({ custo: a.custo + s.custo, conv: a.conv + s.conv, impr: a.impr + s.impr, cliq: a.cliq + s.cliq }),
   { custo: 0, conv: 0, impr: 0, cliq: 0 });
 
 const brl = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 const int = v => Math.round(v).toLocaleString('pt-BR');
 const pct = v => (v * 100).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
-const varPct = (a, b) => { const v = (a / b - 1) * 100; return (v >= 0 ? '+' : '') + v.toLocaleString('pt-BR', { maximumFractionDigits: 0 }) + '% vs dia anterior'; };
+const delta = (a, b) => { const v = (a / b - 1) * 100; return (v >= 0 ? '+' : '') + v.toLocaleString('pt-BR', { maximumFractionDigits: 0 }) + '%'; };
 
-const METRICAS = [
-  { key: 'custo', nome: 'Custo', fmt: brl, total: brl(T.custo), nota: 'total no período', cor: '#6EE870' },
-  { key: 'conv', nome: 'Conversões', fmt: int, total: int(T.conv), nota: 'total no período', cor: '#9B7DFF' },
-  { key: 'cpa', nome: 'Custo / conv.', fmt: brl, total: brl(T.custo / T.conv), nota: 'média · alvo ' + brl(CPA_ALVO), ref: CPA_ALVO, cor: '#EB542F' },
-  { key: 'ctr', nome: 'CTR', fmt: pct, total: pct(T.cliq / T.impr), nota: 'média do período', cor: '#F2B33D' },
-  { key: 'cpc', nome: 'CPC médio', fmt: brl, total: brl(T.custo / T.cliq), nota: 'média do período', cor: '#3FC1E8' },
-  { key: 'tx', nome: 'Taxa de conv.', fmt: pct, total: pct(T.conv / T.cliq), nota: 'média do período', cor: '#FAFAFA' }
+const M = [
+  { key: 'custo', nome: 'Custo', fmt: brl, total: brl(T.custo), sub: 'total', cor: '#6EE870' },
+  { key: 'conv', nome: 'Conversões', fmt: int, total: int(T.conv), sub: 'total', cor: '#9B7DFF' },
+  { key: 'cpa', nome: 'Custo / conv.', fmt: brl, total: brl(T.custo / T.conv), sub: 'média · alvo ' + brl(CPA_ALVO), cor: '#EB542F', ref: CPA_ALVO },
+  { key: 'ctr', nome: 'CTR', fmt: pct, total: pct(T.cliq / T.impr), sub: 'média', cor: '#F2B33D' },
+  { key: 'cpc', nome: 'CPC médio', fmt: brl, total: brl(T.custo / T.cliq), sub: 'média', cor: '#3FC1E8' },
+  { key: 'tx', nome: 'Taxa de conv.', fmt: pct, total: pct(T.conv / T.cliq), sub: 'média', cor: '#FAFAFA' }
 ];
-METRICAS.forEach(m => m.on = true);
-let atual = METRICAS[2];
+M.forEach(m => m.on = true);
+let modo = 'linha';
 
-const NS = 'http://www.w3.org/2000/svg';
-function el(tag, attrs, parent) {
-  const e = document.createElementNS(NS, tag);
-  for (const k in attrs) e.setAttribute(k, attrs[k]);
-  parent.appendChild(e);
-  return e;
-}
-function niceMax(v) {
-  const p = Math.pow(10, Math.floor(Math.log10(v)));
-  return [1, 1.2, 1.6, 2, 2.4, 4, 6, 8, 10].find(s => v / p <= s + 1e-9) * p;
-}
-
-const charts = [];
-
-function lineChart(box, m, mini) {
-  box.innerHTML = '';
-  const W = box.clientWidth, H = box.clientHeight;
-  const g = mini ? { l: 6, r: 6, t: 10, b: 20 } : { l: 64, r: 20, t: 16, b: 30 };
-  const iw = W - g.l - g.r, ih = H - g.t - g.b;
-  const vals = DADOS.map(s => s[m.key]);
-  const yMax = niceMax(Math.max(...vals, m.ref || 0) * 1.1);
-  const x = i => g.l + iw * i / (DADOS.length - 1);
-  const y = v => g.t + ih - v / yMax * ih;
-  const svg = el('svg', { width: W, height: H, role: 'img',
-    'aria-label': m.nome + ' por dia: ' + DADOS.map(s => s.d + ' ' + m.fmt(s[m.key])).join(', ') }, box);
-
-  const ticks = mini ? [0] : [0, 1, 2, 3, 4];
-  ticks.forEach(k => {
-    const v = yMax * k / 4;
-    el('line', { x1: g.l, x2: W - g.r, y1: y(v), y2: y(v), stroke: k ? 'var(--grid)' : 'var(--axis)' }, svg);
-    if (!mini) el('text', { x: g.l - 10, y: y(v) + 4, 'text-anchor': 'end', 'font-size': 11, 'font-family': 'var(--f-mono)', fill: 'var(--muted)' }, svg)
-      .textContent = m.fmt(v).replace(',00', '');
-  });
-  DADOS.forEach((s, i) => {
-    if (mini && i !== 0 && i !== DADOS.length - 1) return;
-    el('text', { x: x(i), y: H - 4, 'text-anchor': mini ? (i ? 'end' : 'start') : 'middle', 'font-size': 11,
-      'font-family': 'var(--f-mono)', fill: 'var(--muted)' }, svg).textContent = s.d;
-  });
-  if (m.ref) {
-    el('line', { x1: g.l, x2: W - g.r, y1: y(m.ref), y2: y(m.ref), stroke: 'var(--red)', 'stroke-width': mini ? 1.5 : 2, 'stroke-dasharray': '5 4' }, svg);
-    if (!mini) el('text', { x: g.l + 8, y: y(m.ref) + 18, 'text-anchor': 'start', 'font-size': 11, 'font-family': 'var(--f-mono)', fill: 'var(--ink-2)' }, svg)
-      .textContent = 'CPA DESEJADO ' + brl(m.ref);
-  }
-
-  const pts = vals.map((v, i) => [x(i), y(v)]);
-  el('path', { d: `M${pts[0][0]},${y(0)} ` + pts.map(p => `L${p[0]},${p[1]}`).join(' ') + ` L${pts[pts.length - 1][0]},${y(0)} Z`, fill: 'var(--area)' }, svg);
-  el('path', { d: pts.map((p, i) => (i ? 'L' : 'M') + p[0] + ',' + p[1]).join(' '), fill: 'none',
-    stroke: 'var(--green)', 'stroke-width': mini ? 2 : 2.5, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, svg);
-  const cross = el('line', { y1: g.t, y2: g.t + ih, stroke: 'var(--axis)', opacity: 0 }, svg);
-  const r = mini ? 3 : 4.5;
-  const dots = pts.map(p => el('circle', { cx: p[0], cy: p[1], r, fill: 'var(--green)', stroke: 'var(--card)', 'stroke-width': 2 }, svg));
-  if (!mini) el('text', { x: pts[pts.length - 1][0], y: pts[pts.length - 1][1] - 14, 'text-anchor': 'end', 'font-size': 13,
-    'font-weight': 600, fill: 'var(--ice)' }, svg).textContent = m.fmt(vals[vals.length - 1]);
-
-  const half = iw / (DADOS.length - 1) / 2;
-  DADOS.forEach((s, i) => {
-    const hit = el('rect', { x: x(i) - half, y: 0, width: half * 2, height: H, fill: 'transparent' }, svg);
-    hit.addEventListener('mouseenter', () => setDay(i));
-  });
-  svg.addEventListener('mouseleave', () => setDay(null));
-
-  return {
-    mini, box, pts,
-    show(i) {
-      cross.setAttribute('opacity', i == null ? 0 : 1);
-      if (i != null) { cross.setAttribute('x1', x(i)); cross.setAttribute('x2', x(i)); }
-      dots.forEach((d, j) => d.setAttribute('r', j === i ? r + 2 : r));
-    }
-  };
-}
-
-// Visão geral (estilo Google Ads): uma linha por métrica, cada uma na própria escala
-const chips = document.getElementById('chips');
-METRICAS.forEach(m => {
+// Chips (clique liga/desliga, duplo clique isola)
+const chipsEl = document.getElementById('chips');
+M.forEach(m => {
   const b = document.createElement('button');
   b.className = 'chip';
   b.style.setProperty('--c', m.cor);
-  b.innerHTML = `<div class="chip-name"><i></i>${m.nome}</div><div class="chip-val">${m.total}</div>`;
-  b.setAttribute('aria-pressed', 'true');
+  b.innerHTML = `<div class="chip-name"><i></i>${m.nome}</div><div class="chip-val"></div><div class="chip-sub"></div>`;
+  let t = null;
   b.addEventListener('click', () => {
-    if (m.on && METRICAS.filter(x => x.on).length === 1) return;
-    m.on = !m.on;
-    b.setAttribute('aria-pressed', m.on);
-    drawOverview();
+    clearTimeout(t);
+    t = setTimeout(() => {
+      if (m.on && M.filter(x => x.on).length === 1) return;
+      m.on = !m.on; draw();
+    }, 220);
   });
-  chips.appendChild(b);
+  b.addEventListener('dblclick', () => { clearTimeout(t); M.forEach(x => x.on = x === m); draw(); });
+  m.chip = b;
+  chipsEl.appendChild(b);
 });
 
-function drawOverview() {
-  const box = document.getElementById('ov-chart');
-  const tip = document.getElementById('ov-tip');
-  box.innerHTML = '';
-  tip.style.opacity = 0;
+function setChips(i) {
+  M.forEach(m => {
+    m.chip.setAttribute('aria-pressed', m.on);
+    const v = m.chip.querySelector('.chip-val'), s = m.chip.querySelector('.chip-sub');
+    if (i == null) { v.textContent = m.total; s.textContent = m.sub + ' · período'; }
+    else { v.textContent = m.fmt(DADOS[i][m.key]); s.textContent = DADOS[i].d + (i ? ' · ' + delta(DADOS[i][m.key], DADOS[i - 1][m.key]) + ' vs dia ant.' : ' · 1º dia'); }
+  });
+}
+
+const segL = document.getElementById('b-linha'), segB = document.getElementById('b-barra');
+segL.onclick = () => { modo = 'linha'; draw(); };
+segB.onclick = () => { modo = 'barra'; draw(); };
+document.getElementById('b-todas').onclick = () => { M.forEach(m => m.on = true); draw(); };
+
+const NS = 'http://www.w3.org/2000/svg';
+function el(tag, a, p) { const e = document.createElementNS(NS, tag); for (const k in a) e.setAttribute(k, a[k]); p.appendChild(e); return e; }
+function niceMax(v) { const p = Math.pow(10, Math.floor(Math.log10(v))); return [1, 1.2, 1.6, 2, 2.4, 4, 6, 8, 10].find(s => v / p <= s + 1e-9) * p; }
+
+function draw() {
+  segL.setAttribute('aria-pressed', modo === 'linha');
+  segB.setAttribute('aria-pressed', modo === 'barra');
+  setChips(null);
+  const box = document.getElementById('chart'), tip = document.getElementById('tip');
+  box.innerHTML = ''; tip.style.opacity = 0;
+  const on = M.filter(m => m.on), solo = on.length === 1;
   const W = box.clientWidth, H = box.clientHeight;
-  const g = { l: 16, r: 16, t: 16, b: 30 };
-  const iw = W - g.l - g.r, ih = H - g.t - g.b;
-  const x = i => g.l + iw * i / (DADOS.length - 1);
-  const ativas = METRICAS.filter(m => m.on);
+  const g = { l: solo ? 64 : 12, r: 12, t: 16, b: 30 };
+  const iw = W - g.l - g.r, ih = H - g.t - g.b, n = DADOS.length;
+  const band = iw / n;
+  const x = i => modo === 'barra' ? g.l + band * (i + 0.5) : g.l + iw * i / (n - 1);
   const svg = el('svg', { width: W, height: H, role: 'img',
-    'aria-label': 'Visão geral: ' + ativas.map(m => m.nome).join(', ') + ' por dia, cada uma na própria escala' }, box);
+    'aria-label': on.map(m => m.nome + ': ' + DADOS.map(s => s.d + ' ' + m.fmt(s[m.key])).join(', ')).join('. ') }, box);
+
+  const scale = m => {
+    const max = solo ? niceMax(Math.max(...DADOS.map(s => s[m.key]), m.ref || 0) * 1.1) : Math.max(...DADOS.map(s => s[m.key])) * 1.08;
+    return v => g.t + ih - v / max * ih;
+  };
+  const sMax = solo ? niceMax(Math.max(...DADOS.map(s => s[on[0].key]), on[0].ref || 0) * 1.1) : 0;
 
   for (let k = 0; k <= 4; k++) {
-    const yy = g.t + ih * k / 4;
-    el('line', { x1: g.l, x2: W - g.r, y1: yy, y2: yy, stroke: k === 4 ? 'var(--axis)' : 'var(--grid)' }, svg);
+    const yy = g.t + ih * (4 - k) / 4;
+    el('line', { x1: g.l, x2: W - g.r, y1: yy, y2: yy, stroke: k ? 'var(--grid)' : 'var(--axis)' }, svg);
+    if (solo) el('text', { x: g.l - 10, y: yy + 4, 'text-anchor': 'end', 'font-size': 11, 'font-family': 'var(--f-mono)', fill: 'var(--muted)' }, svg)
+      .textContent = on[0].fmt(sMax * k / 4).replace(',00', '');
   }
   DADOS.forEach((s, i) => {
-    el('text', { x: x(i), y: H - 6, 'text-anchor': i === 0 ? 'start' : i === DADOS.length - 1 ? 'end' : 'middle',
-      'font-size': 11, 'font-family': 'var(--f-mono)', fill: 'var(--muted)' }, svg).textContent = s.d;
+    const anchor = modo === 'barra' ? 'middle' : i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle';
+    el('text', { x: x(i), y: H - 6, 'text-anchor': anchor, 'font-size': 11, 'font-family': 'var(--f-mono)', fill: 'var(--muted)' }, svg).textContent = s.d;
   });
 
-  const cross = el('line', { y1: g.t, y2: g.t + ih, stroke: 'var(--axis)', opacity: 0 }, svg);
-  const series = ativas.map(m => {
-    const max = Math.max(...DADOS.map(s => s[m.key])) * 1.08;
-    const pts = DADOS.map((s, i) => [x(i), g.t + ih - s[m.key] / max * ih]);
-    el('path', { d: pts.map((p, i) => (i ? 'L' : 'M') + p[0] + ',' + p[1]).join(' '), fill: 'none',
-      stroke: m.cor, 'stroke-width': 2.5, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, svg);
-    return { m, pts };
-  });
-  const dots = series.map(({ m, pts }) => pts.map(p =>
-    el('circle', { cx: p[0], cy: p[1], r: 4, fill: m.cor, stroke: 'var(--card)', 'stroke-width': 2 }, svg)));
+  const cross = el('rect', { y: g.t, height: ih, width: modo === 'barra' ? band : 1, fill: modo === 'barra' ? 'rgba(250,250,250,0.05)' : 'var(--axis)', opacity: 0 }, svg);
 
-  const half = iw / (DADOS.length - 1) / 2;
+  let marks = [];
+  if (modo === 'barra') {
+    const inner = band * 0.72, bw = inner / on.length;
+    on.forEach((m, k) => {
+      const y = scale(m);
+      marks.push(DADOS.map((s, i) => {
+        const x0 = g.l + band * i + (band - inner) / 2 + bw * k;
+        const top = y(s[m.key]), h = g.t + ih - top;
+        return el('rect', { x: x0 + 1, y: top, width: Math.max(bw - 2, 1), height: h, fill: m.cor, rx: Math.min(4, bw / 3) }, svg);
+      }));
+    });
+  } else {
+    on.forEach(m => {
+      const y = scale(m);
+      const pts = DADOS.map((s, i) => [x(i), y(s[m.key])]);
+      if (solo) el('path', { d: `M${pts[0][0]},${g.t + ih} ` + pts.map(p => `L${p[0]},${p[1]}`).join(' ') + ` L${pts[n - 1][0]},${g.t + ih} Z`, fill: m.cor, opacity: 0.1 }, svg);
+      el('path', { d: pts.map((p, i) => (i ? 'L' : 'M') + p[0] + ',' + p[1]).join(' '), fill: 'none', stroke: m.cor, 'stroke-width': 2.5, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, svg);
+      marks.push(pts.map(p => el('circle', { cx: p[0], cy: p[1], r: 4, fill: m.cor, stroke: 'var(--card)', 'stroke-width': 2 }, svg)));
+    });
+  }
+  if (solo && on[0].ref) {
+    const yy = scale(on[0])(on[0].ref);
+    el('line', { x1: g.l, x2: W - g.r, y1: yy, y2: yy, stroke: 'var(--red)', 'stroke-width': 2, 'stroke-dasharray': '6 4' }, svg);
+    el('text', { x: g.l + 8, y: yy - 8, 'font-size': 11, 'font-family': 'var(--f-mono)', fill: 'var(--ink-2)' }, svg).textContent = 'CPA DESEJADO ' + brl(on[0].ref);
+  }
+
+  const hw = modo === 'barra' ? band / 2 : iw / (n - 1) / 2;
   DADOS.forEach((s, i) => {
-    const hit = el('rect', { x: x(i) - half, y: 0, width: half * 2, height: H, fill: 'transparent' }, svg);
+    const hit = el('rect', { x: x(i) - hw, y: 0, width: hw * 2, height: H, fill: 'transparent' }, svg);
     hit.addEventListener('mouseenter', () => {
-      cross.setAttribute('x1', x(i)); cross.setAttribute('x2', x(i)); cross.setAttribute('opacity', 1);
-      dots.forEach(ds => ds.forEach((d, j) => d.setAttribute('r', j === i ? 6 : 4)));
+      cross.setAttribute('x', modo === 'barra' ? x(i) - band / 2 : x(i)); cross.setAttribute('opacity', 1);
+      if (modo === 'linha') marks.forEach(ms => ms.forEach((d, j) => d.setAttribute('r', j === i ? 6 : 4)));
+      else marks.forEach(ms => ms.forEach((r, j) => r.setAttribute('opacity', j === i ? 1 : 0.35)));
+      setChips(i);
       tip.innerHTML = `<b>${s.d}</b> <span class="mono">· ${s.ativas} campanhas</span>`
-        + series.map(({ m }) => `<div class="row"><span><i style="background:${m.cor}"></i>${m.nome}</span><b>${m.fmt(s[m.key])}</b></div>`).join('');
+        + on.map(m => `<div class="row"><span><i style="background:${m.cor}"></i>${m.nome}</span><b>${m.fmt(s[m.key])}</b></div>`).join('');
       tip.style.opacity = 1;
-      let left = box.offsetLeft + x(i) + 16;
-      if (left + tip.offsetWidth > box.offsetLeft + W) left = box.offsetLeft + x(i) - tip.offsetWidth - 16;
-      tip.style.left = left + 'px';
+      let left = box.offsetLeft + x(i) + hw * (modo === 'barra' ? 1 : 0.3) + 8;
+      if (left + tip.offsetWidth > box.offsetLeft + W) left = box.offsetLeft + x(i) - hw * (modo === 'barra' ? 1 : 0.3) - tip.offsetWidth - 8;
+      tip.style.left = Math.max(0, left) + 'px';
       tip.style.top = (box.offsetTop + 8) + 'px';
     });
   });
   svg.addEventListener('mouseleave', () => {
     cross.setAttribute('opacity', 0);
-    dots.forEach(ds => ds.forEach(d => d.setAttribute('r', 4)));
-    tip.style.opacity = 0;
+    marks.forEach(ms => ms.forEach(d => modo === 'linha' ? d.setAttribute('r', 4) : d.setAttribute('opacity', 1)));
+    tip.style.opacity = 0; setChips(null);
   });
 }
 
-// Pills
-const pills = document.getElementById('pills');
-METRICAS.forEach(m => {
-  const b = document.createElement('button');
-  b.textContent = m.nome;
-  b.addEventListener('click', () => selecionar(m));
-  m.btn = b;
-  pills.appendChild(b);
-});
-
-// Cards da visão geral
-const grid = document.getElementById('grid');
-METRICAS.forEach(m => {
-  const c = document.createElement('button');
-  c.className = 'mini';
-  c.innerHTML = `<div class="mini-head"><span class="mini-name">${m.nome}</span><span class="mini-day"></span></div>
-    <div class="mini-val"></div><div class="mini-sub"></div><div class="mini-chart"></div>`;
-  c.addEventListener('click', () => { selecionar(m); document.getElementById('main-card').scrollIntoView({ behavior: 'smooth', block: 'center' }); });
-  m.card = c;
-  grid.appendChild(c);
-});
-
-let mainChart = null;
-function selecionar(m) {
-  atual = m;
-  METRICAS.forEach(x => {
-    x.btn.setAttribute('aria-pressed', x === m);
-    x.card.classList.toggle('active', x === m);
-  });
-  document.getElementById('big').textContent = m.total;
-  document.getElementById('big-note').textContent = m.nota;
-  desenhar();
-}
-
-function desenhar() {
-  drawOverview();
-  charts.length = 0;
-  mainChart = lineChart(document.getElementById('main-chart'), atual, false);
-  charts.push(mainChart);
-  METRICAS.forEach(m => { m.mini = lineChart(m.card.querySelector('.mini-chart'), m, true); charts.push(m.mini); });
-  setDay(null);
-}
-
-function setDay(i) {
-  charts.forEach(c => c.show(i));
-  const dia = i == null ? DADOS.length - 1 : i;
-  const s = DADOS[dia];
-  METRICAS.forEach(m => {
-    m.card.querySelector('.mini-day').textContent = s.d;
-    m.card.querySelector('.mini-val').textContent = m.fmt(s[m.key]);
-    m.card.querySelector('.mini-sub').textContent = dia > 0 ? varPct(s[m.key], DADOS[dia - 1][m.key]) : 'primeiro dia';
-  });
-  const tip = document.getElementById('tip');
-  if (i == null) { tip.style.opacity = 0; return; }
-  const m = atual, box = mainChart.box, p = mainChart.pts[i];
-  tip.innerHTML = `<b>${s.d} · ${m.fmt(s[m.key])}</b><br><span class="mono">${i > 0 ? varPct(s[m.key], DADOS[i - 1][m.key]) : 'primeiro dia'}</span><br>`
-    + `<span class="mono">${brl(s.custo)} · ${s.conv} conv · ${s.ativas} campanhas</span>`;
-  tip.style.opacity = 1;
-  let left = box.offsetLeft + p[0] + 16;
-  if (left + tip.offsetWidth > box.offsetLeft + box.clientWidth) left = box.offsetLeft + p[0] - tip.offsetWidth - 16;
-  tip.style.left = left + 'px';
-  tip.style.top = (box.offsetTop + Math.max(0, p[1] - 60)) + 'px';
-}
-
-selecionar(atual);
-let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(desenhar, 120); });
+draw();
+let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(draw, 120); });
 </script>
 </body>
 </html>
